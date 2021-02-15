@@ -18,6 +18,25 @@
 
 using namespace std;
 
+void print_time_data(const vector<float>& detect_times, const vector<float>& extract_times)
+{
+    std::cout << "\n";
+    for(float t: detect_times)
+    {
+        std::cout << t << ", "; 
+    }
+    float avg = std::accumulate(detect_times.begin(),detect_times.end(), 0.0)/detect_times.size();
+
+    std::cout << "\n" << "Mean: " << avg << ".\n";
+    for(float t: extract_times)
+    {
+        std::cout << t << ", "; 
+    }
+    avg = std::accumulate(extract_times.begin(),extract_times.end(), 0.0)/extract_times.size();
+    std::cout << "\n" << "Mean: " << avg << ".\n";
+    return;
+}
+
 /* MAIN PROGRAM */
 int main(int argc, const char *argv[])
 {
@@ -43,6 +62,10 @@ int main(int argc, const char *argv[])
     double extract_time = 0.0;
     double total_time = 0.0;
 
+    // collect timing
+    vector<float> detect_times;
+    vector<float> extract_times;
+
     /* MAIN LOOP OVER ALL IMAGES */
 
     for (size_t imgIndex = 0; imgIndex <= imgEndIndex - imgStartIndex; imgIndex++)
@@ -59,9 +82,6 @@ int main(int argc, const char *argv[])
         img = cv::imread(imgFullFilename);
         cv::cvtColor(img, imgGray, cv::COLOR_BGR2GRAY);
 
-        //// STUDENT ASSIGNMENT
-        //// TASK MP.1 -> replace the following code with ring buffer of size dataBufferSize
-
         // push image into data frame buffer
         DataFrame frame;
         frame.cameraImg = imgGray;
@@ -75,17 +95,14 @@ int main(int argc, const char *argv[])
             dataBuffer.push_back(frame);
         }
         
-        //// EOF STUDENT ASSIGNMENT
         cout << "#1 : LOAD IMAGE INTO BUFFER done" << endl;
 
         /* DETECT IMAGE KEYPOINTS */
 
         // extract 2D keypoints from current image
         vector<cv::KeyPoint> keypoints; // create empty feature list for current image
-        string detectorType = "SHITOMASI"; // "SHITOMASI";
+        string detectorType = "SIFT"; // "SHITOMASI";
 
-        //// STUDENT ASSIGNMENT
-        //// TASK MP.2 -> add the following keypoint detectors in file matching2D.cpp and enable string-based selection based on detectorType
         //// -> HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
 
         if (detectorType.compare("SHITOMASI") == 0)
@@ -101,10 +118,8 @@ int main(int argc, const char *argv[])
         {
             detect_time = detKeypointsModern(keypoints, imgGray, detectorType, false);
         }
-        //// EOF STUDENT ASSIGNMENT
 
-        //// STUDENT ASSIGNMENT
-        //// TASK MP.3 -> only keep keypoints on the preceding vehicle
+        detect_times.push_back(detect_time);
 
         // only keep keypoints on the preceding vehicle
         bool bFocusOnVehicle = true;
@@ -121,9 +136,7 @@ int main(int argc, const char *argv[])
             }
         }
 
-        //// EOF STUDENT ASSIGNMENT
-
-        // optional : limit number of keypoints (helpful for debugging and learning)
+        // optional : limit number of keypoints
         bool bLimitKpts = false;
         if (bLimitKpts)
         {
@@ -148,15 +161,14 @@ int main(int argc, const char *argv[])
         }
 
         /* EXTRACT KEYPOINT DESCRIPTORS */
-
-        //// STUDENT ASSIGNMENT
-        //// TASK MP.4 -> add the following descriptors in file matching2D.cpp and enable string-based selection based on descriptorType
-        //// -> BRIEF, ORB, FREAK, AKAZE, SIFT
+        //// BRIEF, ORB, FREAK, AKAZE, SIFT
 
         cv::Mat descriptors;
-        string descriptorType = "BRISK"; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
+        string descriptorType = "SIFT"; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
         extract_time = descKeypoints((dataBuffer.end() - 1)->keypoints, (dataBuffer.end() - 1)->cameraImg, descriptors, descriptorType);
-        //// EOF STUDENT ASSIGNMENT
+
+        // save extract time for timing stastics
+        extract_times.push_back(extract_time);
 
         // push descriptors for current frame to end of data buffer
         (dataBuffer.end() - 1)->descriptors = descriptors;
@@ -173,15 +185,10 @@ int main(int argc, const char *argv[])
             string descriptorType = "DES_BINARY"; // DES_BINARY, DES_HOG
             string selectorType = "SEL_KNN";       // SEL_NN, SEL_KNN
 
-            //// STUDENT ASSIGNMENT
-            //// TASK MP.5 -> add FLANN matching in file matching2D.cpp
-            //// TASK MP.6 -> add KNN match selection and perform descriptor distance ratio filtering with t=0.8 in file matching2D.cpp
-
             matchDescriptors((dataBuffer.end() - 2)->keypoints, (dataBuffer.end() - 1)->keypoints,
                              (dataBuffer.end() - 2)->descriptors, (dataBuffer.end() - 1)->descriptors,
                              matches, descriptorType, matcherType, selectorType);
 
-            //// EOF STUDENT ASSIGNMENT
 
             // store matches in current data frame
             (dataBuffer.end() - 1)->kptMatches = matches;
@@ -213,7 +220,12 @@ int main(int argc, const char *argv[])
 
     } // eof loop over all images
 
+    print_time_data(detect_times, extract_times);
+
+
     std::cout << "DETECT + EXTRACT TIME: " << total_time << " ms.\n";
+
+    
 
     return 0;
 }

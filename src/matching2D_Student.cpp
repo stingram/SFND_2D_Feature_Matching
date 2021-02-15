@@ -262,6 +262,19 @@ double detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, st
     t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
     cout << detectorType << " detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 
+    // compute size statistics
+    std::vector<float> sizes;
+    for(auto keypoint : keypoints)
+    {
+        sizes.push_back(keypoint.size);
+    }
+    float min_nsize = *min_element(sizes.begin(), sizes.end());
+    float max_nsize = *max_element(sizes.begin(), sizes.end());
+    float mean_nsize =  accumulate(sizes.begin(), sizes.end(), 0.0) / sizes.size(); 
+
+    cout << "Min, Max, Mean: " << min_nsize << ", " << max_nsize << ", " << mean_nsize << endl;     
+
+
     // visualize results
     if (bVis)
     {
