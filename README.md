@@ -19,50 +19,50 @@ For a larger view, click the image above.
 ### Timing Statistics
 The table below shows the average computation time in ms of all detector/descriptor combinations across the 10 input images. Detector/Descriptor pairs that are in compatible show NA for the time and are listed at the bottom of the table. Pairs are listed in ascending order w.r.t. average computation time.
 
-| Detector  | Descriptor | Average time (ms) |   |   |
-|-----------|------------|-------------------|---|---|
-| FAST      | ORB        | 6                 |   |   |
-| FAST      | BRIEF      | 7                 |   |   |
-| FAST      | BRISK      | 8                 |   |   |
-| ORB       | BRISK      | 15                |   |   |
-| ORB       | ORB        | 20                |   |   |
-| ORB       | BRIEF      | 22                |   |   |
-| Shitomasi | BRISK      | 27                |   |   |
-| Harris    | BRISK      | 27                |   |   |
-| Harris    | ORB        | 28                |   |   |
-| Shitomasi | BRIEF      | 29                |   |   |
-| Harris    | BRIEF      | 29                |   |   |
-| Shitomasi | ORB        | 37                |   |   |
-| BRISK     | BRIEF      | 45                |   |   |
-| BRISK     | BRISK      | 47                |   |   |
-| BRISK     | ORB        | 51                |   |   |
-| Shitomasi | SIFT       | 56                |   |   |
-| FAST      | FREAK      | 57                |   |   |
-| Harris    | SIFT       | 59                |   |   |
-| SIFT      | SIFT       | 64                |   |   |
-| ORB       | FREAK      | 72                |   |   |
-| FAST      | SIFT       | 82                |   |   |
-| Harris    | FREAK      | 83                |   |   |
-| Shitomasi | FREAK      | 90                |   |   |
-| BRISK     | FREAK      | 104               |   |   |
-| BRISK     | SIFT       | 139               |   |   |
-| AKAZE     | BRISK      | 141               |   |   |
-| ORB       | SIFT       | 143               |   |   |
-| AKAZE     | ORB        | 161               |   |   |
-| AKAZE     | BRIEF      | 163               |   |   |
-| SIFT      | BRISK      | 185               |   |   |
-| AKAZE     | FREAK      | 218               |   |   |
-| AKAZE     | SIFT       | 235               |   |   |
-| SIFT      | BRIEF      | 245               |   |   |
-| SIFT      | FREAK      | 255               |   |   |
-| AKAZE     | AKAZE      | 291               |   |   |
-| SIFT      | ORB        | NA                |   |   |
-| Shitomasi | AKAZE      | NA                |   |   |
-| Harris    | AKAZE      | NA                |   |   |
-| FAST      | AKAZE      | NA                |   |   |
-| BRISK     | AKAZE      | NA                |   |   |
-| ORB       | AKAZE      | NA                |   |   |
-| SIFT      | AKAZE      | NA                |   |   |
+| Detector  | Descriptor | Average time (ms) |
+|-----------|------------|-------------------|
+| FAST      | ORB        | 6                 |
+| FAST      | BRIEF      | 7                 |
+| FAST      | BRISK      | 8                 |
+| ORB       | BRISK      | 15                |
+| ORB       | ORB        | 20                |
+| ORB       | BRIEF      | 22                |
+| Shitomasi | BRISK      | 27                |
+| Harris    | BRISK      | 27                |
+| Harris    | ORB        | 28                |
+| Shitomasi | BRIEF      | 29                |
+| Harris    | BRIEF      | 29                |
+| Shitomasi | ORB        | 37                |
+| BRISK     | BRIEF      | 45                |
+| BRISK     | BRISK      | 47                |
+| BRISK     | ORB        | 51                |
+| Shitomasi | SIFT       | 56                |
+| FAST      | FREAK      | 57                |
+| Harris    | SIFT       | 59                |
+| SIFT      | SIFT       | 64                |
+| ORB       | FREAK      | 72                |
+| FAST      | SIFT       | 82                |
+| Harris    | FREAK      | 83                |
+| Shitomasi | FREAK      | 90                |
+| BRISK     | FREAK      | 104               |
+| BRISK     | SIFT       | 139               |
+| AKAZE     | BRISK      | 141               |
+| ORB       | SIFT       | 143               |
+| AKAZE     | ORB        | 161               |
+| AKAZE     | BRIEF      | 163               |
+| SIFT      | BRISK      | 185               |
+| AKAZE     | FREAK      | 218               |
+| AKAZE     | SIFT       | 235               |
+| SIFT      | BRIEF      | 245               |
+| SIFT      | FREAK      | 255               |
+| AKAZE     | AKAZE      | 291               |
+| SIFT      | ORB        | NA                |
+| Shitomasi | AKAZE      | NA                |
+| Harris    | AKAZE      | NA                |
+| FAST      | AKAZE      | NA                |
+| BRISK     | AKAZE      | NA                |
+| ORB       | AKAZE      | NA                |
+| SIFT      | AKAZE      | NA                |
 
 ## Trade-off Analysis
 
