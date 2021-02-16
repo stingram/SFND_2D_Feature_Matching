@@ -76,7 +76,7 @@ The table below shows the keypoint detectors sorted in descending order, based o
 
 
 ### 2. Number of Matches
-Below is a list of TOP-3 combinations of detector+descriptor sorted in descending order based on the mean number of identified matches among 9 pairs of 10 consecutive images. This information is based on data from [Match Statistics](#matches-statistics).   
+Below is a list of TOP-3 combinations of detector+descriptor sorted in descending order based on the mean number of identified matches among 9 pairs of 10 consecutive images. This information is based on data from [Match Statistics](#match-statistics).   
 
 | Place     | Combination(s)                                                            |  
 |-----------|---------------------------------------------------------------------------|  
@@ -86,7 +86,7 @@ Below is a list of TOP-3 combinations of detector+descriptor sorted in descendin
 
 
 ### 3. Timing
-Below is a list of TOP-3 detector/descriptor combinations sorted in descending order based on the  timing data presented in the section [Timings Statistics](#timings-statistics).   
+Below is a list of TOP-3 detector/descriptor combinations sorted in descending order based on the  timing data presented in the section [Timings Statistics](#Timing-Statistics).   
 
 | Place      | Combination(s)       |  
 |------------|----------------------|  
