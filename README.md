@@ -1,95 +1,101 @@
-# SFND 2D Feature Tracking
-## Sensor Fusion Engineer Nanodegree
+# Sensor Fusion Engineer Nanodegree 2D Feature Tracking
 
 ![visualization.png](images/keypoints.png)
 
-The purpose of this project is to test, analyze, and determine the most effectove combination of available OpenCV key-point detectors, descriptors, and matching methods to estimate Time-to-Collision (TTC), a metric used by collision avoidance systems in self-driving vehicles. TTC is based on the sequence of images provided by a monoview camera mounted on top of a vehicle, forward-facing. TTC involves trade-offs between multiple factors: the number of keypoints detected, the number of matches between the consecutive images, required processing time. 
+The purpose of this project is to test, analyze, and determine the most effective combination of available OpenCV key-point detectors, descriptors, and matching methods to estimate Time-to-Collision (TTC), a metric used by collision avoidance systems in self-driving vehicles. TTC is based on the sequence of images provided by a monoview camera mounted on top of a vehicle, forward-facing. TTC involves trade-offs between multiple factors: the number of keypoints detected, the number of matches between the consecutive images, required processing time. 
 
 The default OpenCV implementation parameters were used for each entity (detectors, descriptors, matchers, selectors). The measurements were taken on an Ubuntu virtual box, Linux 16.04LTS.
 
-### Results
+## Results
 
-#### Keypoint Statistics
-![keypoints.png](images/keypoint_figures.png)
-For a detailed view, click the image above.
+### Keypoint Statistics
+![keypoints.png](figures/keypoints.png)
+For a larger view, click the image above.
 
-#### Match Statistics
-![matches.png](images/match_figures.png)
-For a detailed view, click the image above.
+### Match Statistics
+![matching_stats.png](figures/matching_stats.png)
+For a larger view, click the image above.
 
-#### Timing Statistics
-![timings.png](images/timing_figures.png)  
-To see all the details, open the image above in a new tab and zoom.
-For a detailed view, click the image above.
+### Timing Statistics
+The table below shows the average computation time in ms of all detector/descriptor combinations across the 10 input images. Detector/Descriptor pairs that are in compatible show NA for the time and are listed at the bottom of the table. Pairs are listed in ascending order w.r.t. average computation time.
 
-### Trade-off Factor Analysis
+| Detector  | Descriptor | Average time (ms) |   |   |
+|-----------|------------|-------------------|---|---|
+| FAST      | ORB        | 6                 |   |   |
+| FAST      | BRIEF      | 7                 |   |   |
+| FAST      | BRISK      | 8                 |   |   |
+| ORB       | BRISK      | 15                |   |   |
+| ORB       | ORB        | 20                |   |   |
+| ORB       | BRIEF      | 22                |   |   |
+| Shitomasi | BRISK      | 27                |   |   |
+| Harris    | BRISK      | 27                |   |   |
+| Harris    | ORB        | 28                |   |   |
+| Shitomasi | BRIEF      | 29                |   |   |
+| Harris    | BRIEF      | 29                |   |   |
+| Shitomasi | ORB        | 37                |   |   |
+| BRISK     | BRIEF      | 45                |   |   |
+| BRISK     | BRISK      | 47                |   |   |
+| BRISK     | ORB        | 51                |   |   |
+| Shitomasi | SIFT       | 56                |   |   |
+| FAST      | FREAK      | 57                |   |   |
+| Harris    | SIFT       | 59                |   |   |
+| SIFT      | SIFT       | 64                |   |   |
+| ORB       | FREAK      | 72                |   |   |
+| FAST      | SIFT       | 82                |   |   |
+| Harris    | FREAK      | 83                |   |   |
+| Shitomasi | FREAK      | 90                |   |   |
+| BRISK     | FREAK      | 104               |   |   |
+| BRISK     | SIFT       | 139               |   |   |
+| AKAZE     | BRISK      | 141               |   |   |
+| ORB       | SIFT       | 143               |   |   |
+| AKAZE     | ORB        | 161               |   |   |
+| AKAZE     | BRIEF      | 163               |   |   |
+| SIFT      | BRISK      | 185               |   |   |
+| AKAZE     | FREAK      | 218               |   |   |
+| AKAZE     | SIFT       | 235               |   |   |
+| SIFT      | BRIEF      | 245               |   |   |
+| SIFT      | FREAK      | 255               |   |   |
+| AKAZE     | AKAZE      | 291               |   |   |
+| SIFT      | ORB        | NA                |   |   |
+| Shitomasi | AKAZE      | NA                |   |   |
+| Harris    | AKAZE      | NA                |   |   |
+| FAST      | AKAZE      | NA                |   |   |
+| BRISK     | AKAZE      | NA                |   |   |
+| ORB       | AKAZE      | NA                |   |   |
+| SIFT      | AKAZE      | NA                |   |   |
 
-#### Number of Keypoints
-The table below shows the keypoint detectors sorted in descending order based on the mean number of keypoints identified among 10 images from the monocamera video sequence. BRISK detected a mean XYZ keypoints in the image set, while at the low end  the HARRIS method detected only a mean of XYZ keypoints.  
+## Trade-off Analysis
+
+### 1. Number of Keypoints
+The table below shows the keypoint detectors sorted in descending order, based on the mean number of keypoints identified among 10 images from the monocamera video sequence. On the upper end, FAST detected a mean number of 400 keypoints in the image set, while at the low end, the HARRIS method detected only 104 keypoints, on average.  
 
 
-| BRISK | AKAZE | FAST | SIFT | SHITOMASI | ORB | HARRIS |
-|-------|-------|------|------|-----------|-----|--------|
-| XYZ   | XYZ   | XYZ  | XYZ  | XYZ       | XYZ | XYZ    |
+| FAST  | BRISK | AKAZE | SIFT | SHITOMASI | ORB | HARRIS |
+|-------|-------|-------|------|-----------|-----|--------|
+| 400   | 271   | 166   | 137  | 117       | 111 | 104    |
 
 
-#### Number of Matches
-Below is a list of TOP-5 combinations of detector+descriptor sorted 
-in descending order based on the mean number of identified matches 
-among 9 pairs of 10 consecutive images. 
-The analysis is based on the matches data presented in the section 
-[Matches Statistics](#matches-statistics).   
+### 2. Number of Matches
+Below is a list of TOP-3 combinations of detector+descriptor sorted in descending order based on the mean number of identified matches among 9 pairs of 10 consecutive images. This information is based on data from [Match Statistics](#matches-statistics).   
 
 | Place     | Combination(s)                                                            |  
 |-----------|---------------------------------------------------------------------------|  
-| 1st (278) | BRISK+SIFT, BRISK+BRIEF, BRISK+BRISK, BRISK+ORB                           |  
-| 2nd (258) | BRISK+FREAK                                                               |  
-| 3rd (165) | AKAZE+SIFT, AKAZE+FREAK, AKAZE+ORB, AKAZE+AKAZE, AKAZE+BRIEF, AKAZE+BRISK |  
-| 4th (149) | FAST+BRIEF, FAST+SIFT, FAST+BRISK, FAST+ORB, FAST+FREAK                   |
-| 5th (138) | SIFT+BRISK, SIFT+BRIEF, SIFT+SIFT                                         |
+| 1st (308) | FAST+SIFT, FAST+ORB, FAST+BRIF                                            |  
+| 2nd (241) | FAST+BRISK, FAST+FREAK                                                    |  
+| 3rd (175) | BRISK+BRISK, BRISK+BRIEF, BRISK+ORB, BRISK+FREAK, BRISK+SIFT              |  
 
-#### Timings
-Below is a list of TOP-5 detectors sorted 
-in descending order based on the mean time required to identify keypoints in one image. 
-The analysis is based on the timings data presented in the section 
-[Timings Statistics](#timings-statistics).   
 
-| FAST    | ORB     | HARRIS  | SHITOMASI | BRISK    |  
-|---------|---------|---------|-----------|----------| 
-| 0.74 ms | 5.22 ms | 8.86 ms | 9.29 ms   | 27.07 ms | 
+### 3. Timing
+Below is a list of TOP-3 detector/descriptor combinations sorted in descending order based on the  timing data presented in the section [Timings Statistics](#timings-statistics).   
 
-Below is a list of TOP-5 descriptors sorted 
-in descending order based on the mean time required to compute a set of descriptors 
-for all the keypoints in one image. 
-The analysis is based on the timings data presented in the section 
-[Timings Statistics](#timings-statistics).  
+| Place      | Combination(s)       |  
+|------------|----------------------|  
+| 1st (6 ms) | FAST+ORB             |  
+| 2nd (7 ms) | FAST+BRIEF           |  
+| 3rd (8 ms) | FAST+BRISK           |   
 
-| BRIEF   | BRISK   | ORB     | SIFT     | AKAZE    |  
-|---------|---------|---------|----------|----------|  
-| 0.59 ms | 1.28 ms | 1.73 ms | 15.41 ms | 29.16 ms |  
-
-##### TOP-3 Detector+Descriptor Combinations
-Assuming that the number of keypoints, number of matches, and timings 
-ratings contribute equally, the TOP-3 detector-descriptor combinations 
-are chosen.  
-
-| Place                            | Combination | Score              |
-|----------------------------------|-------------|--------------------|  
-| 1st place (if you value accuracy)| BRISK+BRIEF | 8 = 1 + 1 + 5 + 1  | 
-| 2nd place (if you value speed)   | FAST+BRIEF  | 9 = 3 + 4 + 1 + 1  |   
-| 2nd place (if you value accuracy)| BRISK+BRISK | 9 = 1 + 1 + 5 + 2  | 
-| 3rd place (if you value speed)   | FAST+BRISK  | 10 = 3 + 4 + 1 + 2 | 
-
-##### Summary
-The choice between BRISK+BRIEF and FAST+BRIEF should be based 
-on the hardware available and accuracy requirements. 
-From visual observations it is clear that both combinations produce some 
-false matches on each pair of images, that is why it is probably better 
-to choose FAST+BRIEF combination for collision avoidance system, 
-given the significant gap between the FAST and BRISK keypoint 
-detection times.
-
-The winner is **FAST detector + BRIEF descriptor** combination.
+## Summary
+Based on the average time taken across all images, the three detector/descriptor combinations with the lowest computation time are: FAST/ORB at about 6ms, FAST/BRIEF at about 7ms, and FAST/BRISK at about 8ms. If only speed is to be considered, these three detector/descriptor combinations would be the best for detecting keypoints on vehicles.
 
 # Installation
 
